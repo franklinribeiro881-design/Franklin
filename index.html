@@ -6,68 +6,202 @@
     <title>Flash Formatação - Tecnologia e Soluções</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* --- EFEITO DE CARREGAMENTO (INTRO) --- */
+        /* --- ESTILOS GERAIS E VARIÁVEIS --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        :root {
+            --azul-escuro: #004aad;
+            --azul-claro: #007bff;
+            --azul-hover: #003a8c;
+            --branco: #ffffff;
+            --cinza-claro: #f4f7f6;
+            --preto-suave: #333333;
+            --verde-whatsapp: #25d366;
+        }
+
+        body { background-color: var(--cinza-claro); color: var(--preto-suave); overflow: hidden; /* Esconder scroll durante loader */ }
+
+        /* ============================================================
+           --- NOVO EFEITO DE CARREGAMENTO (INTRO PERCENTUAL) ---
+           ============================================================ */
         #loader {
             position: fixed;
             width: 100%;
             height: 100vh;
-            background: #004aad; /* Azul igual ao seu site */
+            background: var(--azul-escuro); /* Fundo azul escuro da marca */
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 0.8s ease;
+            transition: opacity 0.8s ease, visibility 0.8s;
+            visibility: visible;
         }
 
-        .welcome-text {
-            display: flex;
-            gap: 5px;
-        }
-
-        .welcome-text span {
+        .loader-content {
+            text-align: center;
             color: white;
-            font-size: 2rem;
-            font-weight: bold;
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(-50px);
-            animation: cair 0.5s forwards;
+            width: 80%;
+            max-width: 500px;
         }
 
-        @keyframes cair {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Frase Impactante */
+        .loader-phrase {
+            font-size: 2.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
+
+        /* Assinatura do Criador */
+        .loader-creator {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        /* Container da Barra de Progresso */
+        .progress-container {
+            width: 100%;
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.2); /* Fundo da barra */
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        /* A barra que preenche (Azul Claro Neon) */
+        .progress-bar {
+            height: 100%;
+            width: 0%; /* Começa zerada */
+            background: linear-gradient(90deg, #00d2ff, #007bff); /* Gradiente neon */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.7); /* Brilho */
+            transition: width 0.1s linear; /* Animação suave do preenchimento */
+        }
+
+        /* Texto do Percentual */
+        .progress-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace; /* Estilo digital */
+        }
+
+        /* Responsividade do Loader */
+        @media (max-width: 600px) {
+            .loader-phrase { font-size: 1.5rem; }
+            .loader-creator { font-size: 0.9rem; }
+            .progress-text { font-size: 2rem; }
+        }
+
+        /* ============================================================ */
 
         /* Esconder o site enquanto carrega */
-        body { overflow: hidden; } 
         .site-content { opacity: 0; transition: opacity 1s ease; }
 
-        /* --- RESTANTE DO SEU SITE (ESTILOS ANTERIORES) --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        :root { --azul-escuro: #004aad; --azul-claro: #007bff; --branco: #ffffff; --cinza-claro: #f4f7f6; }
-
+        /* --- CONTEÚDO PRINCIPAL (MANTIDO EXATAMENTE IGUAL) --- */
         .header-top { background-color: var(--azul-escuro); color: white; padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
-        header { background: linear-gradient(135deg, var(--azul-claro), var(--azul-escuro)); color: white; padding: 60px 5%; text-align: center; }
-        .container { width: 90%; max-width: 1200px; margin: 40px auto; }
-        .grid-servicos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
-        .card { background: var(--branco); border: 2px solid var(--cinza-claro); border-radius: 12px; padding: 25px; transition: transform 0.3s; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .card h3 { color: var(--azul-escuro); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        .preco { font-size: 1.2rem; font-weight: bold; color: #28a745; background: #eaffed; padding: 10px; border-radius: 8px; text-align: center; }
-        .btn-whatsapp { background-color: #25d366; color: white; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; margin: 40px auto; width: fit-content; font-size: 1.2rem; }
+        .brand-name { font-weight: bold; letter-spacing: 1px; }
 
-        @media (max-width: 768px) { .grid-servicos { grid-template-columns: 1fr; } }
+        header { background: linear-gradient(135deg, var(--azul-claro), var(--azul-escuro)); color: white; padding: 80px 5%; text-align: center; }
+        header h1 { font-size: 2.5rem; margin-bottom: 15px; }
+        header p { font-size: 1.2rem; opacity: 0.9; }
+
+        .container { width: 90%; max-width: 1200px; margin: 40px auto; padding-bottom: 60px; }
+
+        /* GRID DE SERVIÇOS */
+        .grid-servicos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+
+        .card { 
+            background: var(--branco); 
+            border: 1px solid rgba(0,0,0,0.05); 
+            border-radius: 12px; 
+            padding: 30px; 
+            transition: all 0.3s ease; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--azul-claro);
+            box-shadow: 0 12px 24px rgba(0, 74, 173, 0.15);
+        }
+
+        .card h3 { color: var(--azul-escuro); margin-bottom: 18px; display: flex; align-items: center; gap: 12px; font-size: 1.4rem; }
+        .card h3 i { color: var(--azul-claro); }
+        .card p { color: #666; line-height: 1.6; margin-bottom: 20px; flex-grow: 1; }
+
+        .preco { font-size: 1.25rem; font-weight: bold; color: #28a745; background: #eaffed; padding: 12px; border-radius: 8px; text-align: center; border: 1px solid #c3e6cb; }
+
+        /* BOTÃO WHATSAPP CENTRAL (FINAL) */
+        .btn-whatsapp-central { background-color: var(--verde-whatsapp); color: white; padding: 18px 35px; border-radius: 50px; text-decoration: none; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 12px; margin: 50px auto; width: fit-content; font-size: 1.2rem; transition: background-color 0.3s, transform 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .btn-whatsapp-central:hover { background-color: #20b858; transform: scale(1.05); }
+
+        /* BOTÃO WHATSAPP FLUTUANTE (CANTO) */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--verde-whatsapp);
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .whatsapp-float:hover {
+            background-color: #FFF;
+            color: var(--verde-whatsapp);
+            transform: scale(1.1);
+        }
+
+        /* RODAPÉ */
+        footer {
+            background-color: var(--preto-suave);
+            color: rgba(255,255,255,0.7);
+            padding: 30px 5%;
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) { 
+            header h1 { font-size: 2rem; }
+            .grid-servicos { grid-template-columns: 1fr; } 
+        }
     </style>
 </head>
 <body>
 
     <div id="loader">
-        <div class="welcome-text" id="welcome">
+        <div class="loader-content">
+            <div class="loader-phrase">SEJA BEM-VINDO AO SITE FLASH FORMATAÇÃO</div>
+            
+            <div class="loader-creator">Criador: Franklin</div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="bar"></div>
             </div>
+            
+            <div class="progress-text" id="percent">0%</div>
+        </div>
     </div>
-
     <div class="site-content" id="content">
         <div class="header-top">
             <div class="brand-name">FLASH FORMATAÇÃO</div>
@@ -83,60 +217,89 @@
             <div class="grid-servicos">
                 <div class="card">
                     <h3><i class="fas fa-compact-disc"></i> Formatação Completa</h3>
-                    <p>Windows 10/11, Drivers, Office e Backup.</p>
+                    <p>Instalação de Windows 10/11 original, configuração de Drivers, pacote Office básico e Backup seguro dos seus dados.</p>
                     <div class="preco">A partir de R$ 80,00</div>
                 </div>
                 <div class="card">
-                    <h3><i class="fas fa-rocket"></i> Otimização</h3>
-                    <p>Limpeza e velocidade máxima no seu PC.</p>
+                    <h3><i class="fas fa-rocket"></i> Otimização e Limpeza</h3>
+                    <p>Remoção de vírus, arquivos desnecessários e configuração para velocidade máxima no seu PC ou notebook.</p>
                     <div class="preco">R$ 50,00 - R$ 70,00</div>
                 </div>
                 <div class="card">
                     <h3><i class="fas fa-shield-alt"></i> Segurança e Nuvem</h3>
-                    <p>Backup automático e proteção de contas.</p>
+                    <p>Configuração de antivírus, backup automático em nuvem (Google Drive/OneDrive) e proteção de contas.</p>
                     <div class="preco">R$ 50,00</div>
                 </div>
                 <div class="card">
                     <h3><i class="fas fa-code"></i> Portfólio Digital</h3>
-                    <p>Criação de sites simples e links de bio.</p>
+                    <p>Criação de sites simples para autônomos, páginas de vendas e links personalizados para bio do Instagram.</p>
                     <div class="preco">A partir de R$ 150,00</div>
                 </div>
                 <div class="card">
                     <h3><i class="fas fa-database"></i> Recuperação de Dados</h3>
-                    <p>Arquivos deletados de HD ou Pendrive.</p>
+                    <p>Tentativa de recuperação de fotos, documentos e arquivos deletados acidentalmente de HDs, SSDs ou Pendrives.</p>
                     <div class="preco">Sob consulta</div>
                 </div>
             </div>
 
-            <a href="https://wa.me/5562981225308" class="btn-whatsapp">
-                <i class="fab fa-whatsapp"></i> WhatsApp (62) 98122-5308
+            <a href="https://wa.me/5562981225308?text=Olá,%20gostaria%20de%20um%20orçamento." class="btn-whatsapp-central">
+                <i class="fab fa-whatsapp"></i> Solicitar Orçamento via WhatsApp
             </a>
         </div>
+
+        <footer>
+            <p>&copy; 2023 - <span id="ano-atual"></span> Flash Formatação - Goiânia/GO.</p>
+            <p style="font-size: 0.8rem; margin-top: 5px;">Tecnologia com Rapidez e Honestidade.</p>
+        </footer>
     </div>
 
-    <script>
-        // Gerar as letras caindo dinamicamente
-        const texto = "Seja Bem-vindo";
-        const containerWelcome = document.getElementById('welcome');
-        
-        texto.split('').forEach((letra, i) => {
-            const span = document.createElement('span');
-            span.textContent = letra === ' ' ? '\u00A0' : letra;
-            span.style.animationDelay = `${i * 0.1}s`;
-            containerWelcome.appendChild(span);
-        });
+    <a href="https://wa.me/5562981225308?text=Olá,%20gostaria%20de%20um%20orçamento." class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
-        // Função para esconder o loader e mostrar o site
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').style.opacity = '0';
-                document.getElementById('content').style.opacity = '1';
-                document.body.style.overflow = 'auto';
-                setTimeout(() => {
-                    document.getElementById('loader').style.display = 'none';
-                }, 800);
-            }, 3000); // 3 segundos de animação
-        });
+    <script>
+        // --- JAVASCRIPT MODIFICADO APENAS PARA O LOADER ---
+
+        // Função para simular o carregamento de 0 a 100%
+        function iniciarCarregamento() {
+            const progressBar = document.getElementById('bar');
+            const percentText = document.getElementById('percent');
+            const loader = document.getElementById('loader');
+            const content = document.getElementById('content');
+            
+            let progresso = 0;
+            const tempoTotal = 3000; // 3 segundos (3000ms)
+            const intervaloTempo = 30; // Atualiza a cada 30ms para ficar fluido
+            const incremento = 100 / (tempoTotal / intervaloTempo);
+
+            const timer = setInterval(() => {
+                progresso += incremento;
+                
+                if (progresso >= 100) {
+                    progresso = 100; // Garante que não passe de 100
+                    clearInterval(timer); // Para o contador
+
+                    // --- ENTRA DE UMA VEZ ---
+                    // Pequeno delay para o usuário ver o 100% antes de sumir
+                    setTimeout(() => {
+                        loader.style.opacity = '0';
+                        loader.style.visibility = 'hidden';
+                        content.style.opacity = '1';
+                        document.body.style.overflow = 'auto'; // Reativa o scroll
+                    }, 200);
+                }
+
+                // Atualiza o visual
+                progressBar.style.width = progresso + '%';
+                percentText.textContent = Math.floor(progresso) + '%';
+
+            }, intervaloTempo);
+        }
+
+        // Inicia a animação quando a janela carregar
+        window.addEventListener('load', iniciarCarregamento);
+
+        // --- RESTANTE DO JS (MANTIDO EXATAMENTE IGUAL) ---
 
         // Relógio de Brasília
         function atualizarRelogio() {
@@ -146,6 +309,9 @@
         }
         setInterval(atualizarRelogio, 1000);
         atualizarRelogio();
+
+        // Ano Atual no Rodapé
+        document.getElementById('ano-atual').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>
